@@ -9,6 +9,8 @@ import UIKit
 
 class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentationControllerDelegate {
 
+    private let viewModel: ExchangeRateCalculatorViewModel = ExchangeRateCalculatorViewModel()
+    
     // MARK: UI 요소 정의
     // 타이틀
     private let titleLabel: UILabel = {
@@ -297,10 +299,19 @@ class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentatio
 // MARK: SendDataDelegate Extension
 extension ExchangeRateCalculatorViewController: SendDataDelegate {
     func sendData<T>(_ data: T) {
-        let recipientCountry = data as? String
+        guard let recipientCountry = data as? String else {
+            return
+        }
         
-        DispatchQueue.main.async { [weak self] in
-            self?.recipientCountryNameLabel.text = recipientCountry
+        viewModel.fetchExchangeRate(recipientCountry: recipientCountry) { currency, exchangeRate in
+            DispatchQueue.main.async { [weak self] in
+                self?.recipientCountryNameLabel.text = recipientCountry
+                
+                if let currency = currency,
+                   let exchangeRate = exchangeRate {
+                    self?.exchangeRateLabel.text = "\(String(describing: exchangeRate)) \(currency) / USD"
+                }
+            }
         }
     }
 }
