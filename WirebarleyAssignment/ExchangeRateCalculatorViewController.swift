@@ -230,6 +230,8 @@ class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentatio
         super.viewDidLoad()
         setupUI()
         setupViewConstraint()
+        
+        remittanceAmountTextField.delegate = self
     }
 
     // MARK: -
@@ -307,10 +309,26 @@ extension ExchangeRateCalculatorViewController: SendDataDelegate {
             DispatchQueue.main.async { [weak self] in
                 self?.recipientCountryNameLabel.text = recipientCountry
                 
-                if let currency = currency,
-                   let exchangeRate = exchangeRate {
+                if let currency = currency {
                     self?.exchangeRateLabel.text = "\(String(describing: exchangeRate)) \(currency) / USD"
                 }
+            }
+        }
+    }
+}
+
+// MARK: -
+// MARK: TextFieldDelegate Extension
+extension ExchangeRateCalculatorViewController: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        viewModel.convertToForeignAmount(money: textField.text ?? "") { [weak self] result in
+            switch result {
+            case .success(let amount):
+                if let currency = self?.viewModel.currency {
+                    self?.recipientAmountResultLabel.text = "수취금액은 \(amount) \(currency) 입니다"
+                }
+            case .failure(let error):
+                print(error)
             }
         }
     }

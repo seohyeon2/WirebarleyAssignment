@@ -9,11 +9,25 @@ import Foundation
 
 class ExchangeRateCalculatorViewModel {
     private var currencylayerURLRequestBuilder: CurrencylayerURLRequestBuilder?
+    private var exchangeRate: Double = 0.0
+    var currency: String = ""
     
-    func fetchExchangeRate(recipientCountry: String, completion: @escaping (String?, Double?) -> Void) {
+    func convertToForeignAmount(money: String, completion: @escaping (Result<Double, ConversionError>) -> Void) {
+        guard let money = Double(money) else {
+            completion(.failure(.invalidInput))
+            return
+        }
+        
+        let convertedAmount = money * exchangeRate
+        completion(.success(convertedAmount))
+    }
+    
+    func fetchExchangeRate(recipientCountry: String, completion: @escaping (String?, Double) -> Void) {
         let currency = getCurrency(from: recipientCountry)
         Task {
             let exchangeRate = await getExchangeRate(to: currency)
+            self.exchangeRate = exchangeRate
+            self.currency = currency?.rawValue ?? ""
             completion(currency?.rawValue, exchangeRate)
         }
     }
@@ -57,4 +71,8 @@ class ExchangeRateCalculatorViewModel {
         }
         return currency.first?.value ?? 0.0
     }
+}
+
+enum ConversionError: Error {
+    case invalidInput
 }
