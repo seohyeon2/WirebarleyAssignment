@@ -7,8 +7,10 @@
 
 import UIKit
 
-class ExchangeRateCalculatorViewController: UIViewController {
+class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentationControllerDelegate {
 
+    private var recipientCountry: String?
+    
     // MARK: UI 요소 정의
     // 타이틀
     private let titleLabel: UILabel = {
@@ -100,11 +102,11 @@ class ExchangeRateCalculatorViewController: UIViewController {
             for: .normal
         )
         button.tintColor = .black
-//        button.addTarget(
-//            self,
-//            action: #selector(),
-//            for: .touchUpInside
-//        )
+        button.addTarget(
+            self,
+            action: #selector(openSelectionView),
+            for: .touchUpInside
+        )
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -282,5 +284,25 @@ class ExchangeRateCalculatorViewController: UIViewController {
             
             remittanceAmountTextField.widthAnchor.constraint(equalToConstant: 120)
         ])
+    }
+    
+    // MARK: -
+    // MARK: Action Method
+    @objc private func openSelectionView() {
+        let selectionViewController = RecipientCountrySelectionViewController()
+        selectionViewController.delegate = self
+        present(selectionViewController, animated: true, completion: nil)
+    }
+}
+
+// MARK: -
+// MARK: SendDataDelegate Extension
+extension ExchangeRateCalculatorViewController: SendDataDelegate {
+    func sendData<T>(_ data: T) {
+        recipientCountry = data as? String
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.recipientCountryNameLabel.text = self?.recipientCountry
+        }
     }
 }
