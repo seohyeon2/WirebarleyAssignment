@@ -9,8 +9,6 @@ import UIKit
 
 class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentationControllerDelegate {
 
-    private var recipientCountry: String?
-    
     // MARK: UI 요소 정의
     // 타이틀
     private let titleLabel: UILabel = {
@@ -192,7 +190,7 @@ class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentatio
         return label
     }()
 
-    let remittanceAmountTextField: UITextField = {
+    private let remittanceAmountTextField: UITextField = {
         let textField = UITextField()
         textField.text = "0"
         textField.textAlignment = .right
@@ -214,7 +212,7 @@ class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentatio
     }()
     
     // 수취금액 결과
-    let recipientAmountResultLabel: UILabel = {
+    private let recipientAmountResultLabel: UILabel = {
         let label = UILabel()
         label.text = "수취금액은 113,004.98 KRW 입니다"
         label.textAlignment = .center
@@ -234,7 +232,7 @@ class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentatio
 
     // MARK: -
     // MARK: UI Method
-    func setupUI() {
+    private func setupUI() {
         view.backgroundColor = .systemBackground
 
         view.addSubview(titleLabel)
@@ -299,10 +297,10 @@ class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentatio
 // MARK: SendDataDelegate Extension
 extension ExchangeRateCalculatorViewController: SendDataDelegate {
     func sendData<T>(_ data: T) {
-        recipientCountry = data as? String
+        let recipientCountry = data as? String
         
         DispatchQueue.main.async { [weak self] in
-            self?.recipientCountryNameLabel.text = self?.recipientCountry
+            self?.recipientCountryNameLabel.text = recipientCountry
         }
     }
 }
