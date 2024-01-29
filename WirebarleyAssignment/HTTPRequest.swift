@@ -14,17 +14,36 @@ class HTTPRequest {
         self.request = request
     }
 
-    func execute() async throws -> (Data, URLResponse) {
+    func execute() async throws -> Data {
         guard let request = request else {
             throw URLError(.badURL)
         }
-
+        
+        print(request.url)
+        
         let (data, response) = try await URLSession.shared.data(for: request)
-        return (data, response)
-    }
+        
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw NetworkError.invalidResponse
+        }
 
-    func decode<T: Decodable>(to type: T.Type) async throws -> T {
-        let (data, _) = try await execute()
-        return try JSONDecoder().decode(T.self, from: data)
+        return data
     }
+}
+
+class DecodingManager {
+    static func decode<T: Decodable>(_ data: Data, responseType: T.Type) throws -> T {
+        do {
+            let decodedResponse = try JSONDecoder().decode(T.self, from: data)
+            return decodedResponse
+        } catch {
+            throw NetworkError.dataDecodingFailed
+        }
+    }
+}
+
+enum NetworkError: Error {
+    case invalidResponse
+    case dataDecodingFailed
 }
