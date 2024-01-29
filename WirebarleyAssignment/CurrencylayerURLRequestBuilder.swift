@@ -38,4 +38,8 @@ class CurrencylayerURLRequestBuilder: HTTPRequestBuilder {
     func build() -> HTTPRequest {
         return HTTPRequest(request: request)
     }
+    
+    func getURLRequest() -> URLRequest? {
+        return request
+    }
 }

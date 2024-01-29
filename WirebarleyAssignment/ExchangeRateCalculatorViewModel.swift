@@ -8,9 +8,15 @@
 import Foundation
 
 class ExchangeRateCalculatorViewModel {
-    private var currencylayerURLRequestBuilder: CurrencylayerURLRequestBuilder?
-    private var exchangeRate: Double = 0.0
-    var currency: String = ""
+    private let exchangeRateService: ExchangeRateServiceProtocol
+    private var exchangeRate: ExchangeRate?
+    private(set) var exchangeRateInfo: ExchangeRateInfo
+    
+    init(exchangeRateService: ExchangeRateServiceProtocol, exchangeRate: ExchangeRate? = nil, rate: Double = 0.0, currency: String = "KRW") {
+        self.exchangeRateService = exchangeRateService
+        self.exchangeRate = exchangeRate
+        self.exchangeRateInfo = ExchangeRateInfo(rate: rate, currency: currency)
+    }
     
     func formatNumber(_ number: Double) -> String {
         let formatter = NumberFormatter()
@@ -21,24 +27,47 @@ class ExchangeRateCalculatorViewModel {
         return formatter.string(from: NSNumber(value: number)) ?? "\(number)"
     }
     
+    func formatDate() -> String {
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone.current
+        return dateFormatter.string(from: date)
+    }
+    
     func convertToForeignAmount(money: String, completion: @escaping (Result<Double, ConversionError>) -> Void) {
         guard let money = Double(money) else {
             completion(.failure(.invalidInput))
             return
         }
         
-        let convertedAmount = money * exchangeRate
+        let convertedAmount = money * exchangeRateInfo.rate
         completion(.success(convertedAmount))
     }
-    
-    func fetchExchangeRate(recipientCountry: String, completion: @escaping (String?, Double) -> Void) {
-        let currency = getCurrency(from: recipientCountry)
-        Task {
-            let exchangeRate = await getExchangeRate(to: currency)
-            self.exchangeRate = exchangeRate
-            self.currency = currency?.rawValue ?? ""
-            completion(currency?.rawValue, exchangeRate)
+
+    func loadExchangeRate(recipientCountry: String, completion: @escaping (ExchangeRateInfo) -> Void) {
+        if let exchangeRate = exchangeRate {
+            updateCurrencyAndRate(recipientCountry: recipientCountry, exchangeRate: exchangeRate)
+            completion(self.exchangeRateInfo)
+        } else {
+            exchangeRateService.fetchExchangeRates { [weak self] result in
+                switch result {
+                case .success(let exchangeRate):
+                    self?.exchangeRate = exchangeRate
+                    self?.updateCurrencyAndRate(recipientCountry: recipientCountry, exchangeRate: exchangeRate)
+                    completion(self?.exchangeRateInfo ?? ExchangeRateInfo(rate: 0.0, currency: "KRW"))
+                case .failure:
+                    completion(ExchangeRateInfo(rate: 0.0, currency: "KRW"))
+                }
+            }
         }
+    }
+    
+    private func updateCurrencyAndRate(recipientCountry: String, exchangeRate: ExchangeRate){
+        let currency = getCurrency(from: recipientCountry)
+        let rate = findCurrencyWithCode(code: currency, in: exchangeRate)
+        let newExchangeRateInfo = ExchangeRateInfo(rate: rate, currency: currency?.rawValue ?? "KRW")
+        self.exchangeRateInfo = newExchangeRateInfo
     }
     
     private func getCurrency(from text: String) -> Currency? {
@@ -48,40 +77,10 @@ class ExchangeRateCalculatorViewModel {
         }
         return Currency(rawValue: filteredCharacters)
     }
-    
-    private func getExchangeRate(to currency: Currency?) async -> Double {
-        let builder = CurrencylayerURLRequestBuilder(
-            scheme: "http",
-            host: "apilayer.net",
-            path: "/api/live",
-            queryItems: [
-                "access_key" : "0c3dd2b8b24940ee136d848d73bd0f13",
-                "source" : "USD",
-                "format" : "1"
-            ]
-        )
-        
-        do {
-            let response = try await builder.build().execute()
-            let decodeData = try DecodingManager.decode(response, responseType: ExchangeRate.self)
-            print(decodeData)
-            return findCurrencyWithCode(code: currency, data: decodeData)
-        } catch {
-            print(error)
-        }
-        
-        return 0.0
-    }
-    
-    private func findCurrencyWithCode(code: Currency?, data: ExchangeRate) -> Double {
-        guard let code = code else { return 0.0 }
-        let currency = data.quotes.filter { dictionary in
-            dictionary.key.contains(code.rawValue)
-        }
-        return currency.first?.value ?? 0.0
-    }
-}
 
-enum ConversionError: Error {
-    case invalidInput
+    private func findCurrencyWithCode(code: Currency?, in data: ExchangeRate?) -> Double {
+        guard let code = code,
+              let data = data else { return 0.0 }
+        return data.quotes.first { $0.key.contains(code.rawValue) }?.value ?? 0.0
+    }
 }

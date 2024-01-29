@@ -9,7 +9,7 @@ import UIKit
 
 class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentationControllerDelegate {
 
-    private let viewModel: ExchangeRateCalculatorViewModel = ExchangeRateCalculatorViewModel()
+    private let viewModel: ExchangeRateCalculatorViewModel = ExchangeRateCalculatorViewModel(exchangeRateService: ExchangeRateService())
     
     // MARK: UI 요소 정의
     // 타이틀
@@ -134,7 +134,6 @@ class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentatio
     
     private let exchangeRateLabel: UILabel = {
         let label = UILabel()
-        label.text = "1,130.05 KRW / USD"
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -164,7 +163,6 @@ class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentatio
     
     private let viewTimeLabel: UILabel = {
         let label = UILabel()
-        label.text = "2019-03-20 16:13"
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -216,7 +214,6 @@ class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentatio
     // 수취금액 결과
     private let recipientAmountResultLabel: UILabel = {
         let label = UILabel()
-        label.text = "수취금액은 113,004.98 KRW 입니다"
         label.textAlignment = .center
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
@@ -230,7 +227,8 @@ class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentatio
         super.viewDidLoad()
         setupUI()
         setupViewConstraint()
-        
+        setupText()
+
         remittanceAmountTextField.delegate = self
     }
 
@@ -288,6 +286,27 @@ class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentatio
         ])
     }
     
+    private func setupText() {
+        viewModel.loadExchangeRate(recipientCountry: recipientCountryNameLabel.text ?? "한국(KRW)") { [weak self] exchangeRateInfo in
+            
+            DispatchQueue.main.async { [weak self] in
+                let formatNumber = self?.viewModel.formatNumber(exchangeRateInfo.rate) ?? ""
+                self?.exchangeRateLabel.text = "\(String(describing: formatNumber)) \(exchangeRateInfo.currency) / USD"
+                
+                self?.viewTimeLabel.text = self?.viewModel.formatDate()
+
+                self?.recipientAmountResultLabel.text = "수취금액은 0.00 \(exchangeRateInfo.currency) 입니다"
+            }
+        }
+    }
+    
+    private func updateExchangeRateUI(recipientCountry: String, currency: String, exchangeRate: Double) {
+        recipientCountryNameLabel.text = recipientCountry
+        let formattedNumber = viewModel.formatNumber(exchangeRate)
+        exchangeRateLabel.text = "\(formattedNumber) \(currency) / USD"
+        textFieldDidChangeSelection(remittanceAmountTextField)
+    }
+    
     // MARK: -
     // MARK: Action Method
     @objc private func openSelectionView() {
@@ -305,14 +324,9 @@ extension ExchangeRateCalculatorViewController: SendDataDelegate {
             return
         }
         
-        viewModel.fetchExchangeRate(recipientCountry: recipientCountry) { currency, exchangeRate in
-            DispatchQueue.main.async { [weak self] in
-                self?.recipientCountryNameLabel.text = recipientCountry
-                
-                if let currency = currency {
-                    let formatNumber = self?.viewModel.formatNumber(exchangeRate) ?? ""
-                    self?.exchangeRateLabel.text = "\(String(describing: formatNumber)) \(currency) / USD"
-                }
+        viewModel.loadExchangeRate(recipientCountry: recipientCountry) { [weak self] exchangeRateInfo in
+            DispatchQueue.main.async {
+                self?.updateExchangeRateUI(recipientCountry: recipientCountry, currency: exchangeRateInfo.currency, exchangeRate: exchangeRateInfo.rate)
             }
         }
     }
@@ -325,10 +339,9 @@ extension ExchangeRateCalculatorViewController: UITextFieldDelegate {
         viewModel.convertToForeignAmount(money: textField.text ?? "") { [weak self] result in
             switch result {
             case .success(let amount):
-                if let currency = self?.viewModel.currency {
-                    let formatNumber = self?.viewModel.formatNumber(amount) ?? ""
-                    self?.recipientAmountResultLabel.text = "수취금액은 \(String(describing: formatNumber)) \(currency) 입니다"
-                }
+                let formattedNumber = self?.viewModel.formatNumber(amount) ?? ""
+                let currency = self?.viewModel.exchangeRateInfo.currency ?? ""
+                self?.recipientAmountResultLabel.text = "수취금액은 \(formattedNumber) \(currency) 입니다"
             case .failure(let error):
                 print(error)
             }
