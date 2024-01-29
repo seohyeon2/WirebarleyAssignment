@@ -14,30 +14,17 @@ class HTTPRequest {
         self.request = request
     }
 
-    func execute(completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    func execute() async throws -> (Data, URLResponse) {
         guard let request = request else {
-            completion(nil, nil, URLError(.badURL))
-            return
+            throw URLError(.badURL)
         }
 
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            DispatchQueue.main.async {
-                completion(data, response, error)
-            }
-        }.resume()
+        let (data, response) = try await URLSession.shared.data(for: request)
+        return (data, response)
     }
-    
-    func decode<T: Decodable>(to type: T.Type, data: Data?, completion: @escaping (Result<T, Error>) -> Void) {
-        guard let data = data else {
-            completion(.failure(URLError(.badServerResponse)))
-            return
-        }
-        
-        do {
-            let decodedObject = try JSONDecoder().decode(T.self, from: data)
-            completion(.success(decodedObject))
-        } catch {
-            completion(.failure(error))
-        }
+
+    func decode<T: Decodable>(to type: T.Type) async throws -> T {
+        let (data, _) = try await execute()
+        return try JSONDecoder().decode(T.self, from: data)
     }
 }
