@@ -310,7 +310,8 @@ extension ExchangeRateCalculatorViewController: SendDataDelegate {
                 self?.recipientCountryNameLabel.text = recipientCountry
                 
                 if let currency = currency {
-                    self?.exchangeRateLabel.text = "\(String(describing: exchangeRate)) \(currency) / USD"
+                    let formatNumber = self?.viewModel.formatNumber(exchangeRate) ?? ""
+                    self?.exchangeRateLabel.text = "\(String(describing: formatNumber)) \(currency) / USD"
                 }
             }
         }
@@ -325,7 +326,8 @@ extension ExchangeRateCalculatorViewController: UITextFieldDelegate {
             switch result {
             case .success(let amount):
                 if let currency = self?.viewModel.currency {
-                    self?.recipientAmountResultLabel.text = "수취금액은 \(amount) \(currency) 입니다"
+                    let formatNumber = self?.viewModel.formatNumber(amount) ?? ""
+                    self?.recipientAmountResultLabel.text = "수취금액은 \(String(describing: formatNumber)) \(currency) 입니다"
                 }
             case .failure(let error):
                 print(error)

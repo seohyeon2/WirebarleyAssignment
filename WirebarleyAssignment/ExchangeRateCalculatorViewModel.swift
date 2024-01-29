@@ -12,6 +12,15 @@ class ExchangeRateCalculatorViewModel {
     private var exchangeRate: Double = 0.0
     var currency: String = ""
     
+    func formatNumber(_ number: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+
+        return formatter.string(from: NSNumber(value: number)) ?? "\(number)"
+    }
+    
     func convertToForeignAmount(money: String, completion: @escaping (Result<Double, ConversionError>) -> Void) {
         guard let money = Double(money) else {
             completion(.failure(.invalidInput))
