@@ -15,10 +15,10 @@ class CurrencylayerURLRequestBuilder: HTTPRequestBuilder {
         urlComponents.scheme = scheme
         urlComponents.host = host
         urlComponents.path = path
-        queryItems.forEach {
-            let queryItem = URLQueryItem(name: $0, value: $1)
-            urlComponents.queryItems?.append(queryItem)
+        let queryItems = queryItems.map {
+            return URLQueryItem(name: $0, value: $1)
         }
+        urlComponents.queryItems = queryItems
 
         if let url = urlComponents.url {
             self.request = URLRequest(url: url)
