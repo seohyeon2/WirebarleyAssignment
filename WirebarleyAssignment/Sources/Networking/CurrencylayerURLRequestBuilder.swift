@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CurrencylayerURLRequestBuilder: HTTPRequestBuilder {
+class CurrencylayerURLRequestBuilder: URLRequestBuilder {
     private var request: URLRequest?
 
     init(scheme: String, host: String, path: String, queryItems: [String : String]) {
@@ -25,21 +25,17 @@ class CurrencylayerURLRequestBuilder: HTTPRequestBuilder {
         }
     }
     
-    func setMethod(_ method: String) -> HTTPRequestBuilder {
+    func setMethod(_ method: String) -> URLRequestBuilder {
         request?.httpMethod = method
         return self
     }
     
-    func setHeaders(_ headers: [String : String]) -> HTTPRequestBuilder {
+    func setHeaders(_ headers: [String : String]) -> URLRequestBuilder {
         headers.forEach { request?.setValue($1, forHTTPHeaderField: $0) }
         return self
     }
     
-    func build() -> HTTPRequest {
-        return HTTPRequest(request: request)
-    }
-    
-    func getURLRequest() -> URLRequest? {
+    func build() -> URLRequest? {
         return request
     }
 }

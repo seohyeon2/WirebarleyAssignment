@@ -49,6 +49,6 @@ class ExchangeRateService: ExchangeRateServiceProtocol {
                 "format": "1"
             ]
         )
-        return builder.getURLRequest()
+        return builder.build()
     }
 }

@@ -57,7 +57,7 @@ class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentatio
     
     private let remittanceCountryNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "미국 (USD)"
+        label.text = "미국(USD)"
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +87,7 @@ class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentatio
     
     private let recipientCountryNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "한국 (KRW)"
+        label.text = "한국(KRW)"
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -363,7 +363,8 @@ extension ExchangeRateCalculatorViewController: UITextFieldDelegate {
                 let currency = self?.viewModel.exchangeRateInfo.currency ?? ""
                 self?.recipientAmountResultLabel.text = "수취금액은 \(formattedNumber) \(currency) 입니다"
             case .failure(let error):
-                print(error)
+                self?.recipientAmountResultLabel.text = "수취금액을 불러올 수 없습니다"
+                self?.presentAlert(message: error.localizedDescription)
             }
         }
     }
