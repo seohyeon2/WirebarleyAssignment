@@ -275,6 +275,7 @@ class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentatio
 
             recipientAmountResultLabel.topAnchor.constraint(equalTo: contentStackView.bottomAnchor, constant: 60),
             recipientAmountResultLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            recipientAmountResultLabel.widthAnchor.constraint(equalTo: view.widthAnchor),
             
             remittanceCountryTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
             recipientCountryTitleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),

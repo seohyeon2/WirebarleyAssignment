@@ -125,25 +125,8 @@
 		05AA2B4A2B64210B0001D502 /* WirebarleyAssignment */ = {
 			isa = PBXGroup;
 			children = (
-				05AA2BD02B686F0C0001D502 /* Error */,
-				05AA2B4B2B64210B0001D502 /* AppDelegate.swift */,
-				05AA2B4D2B64210B0001D502 /* SceneDelegate.swift */,
-				05AA2B4F2B64210B0001D502 /* ExchangeRateCalculatorViewController.swift */,
-				05AA2B542B64210C0001D502 /* Assets.xcassets */,
-				05AA2B562B64210C0001D502 /* LaunchScreen.storyboard */,
-				05AA2B592B64210C0001D502 /* Info.plist */,
-				05AA2BB92B6810980001D502 /* RecipientCountrySelectionViewController.swift */,
-				05AA2BBB2B681D3A0001D502 /* SendDataDelegate.swift */,
-				05AA2BC02B682AA40001D502 /* HTTPRequestBuilder.swift */,
-				05AA2BC22B682C310001D502 /* CurrencylayerURLRequestBuilder.swift */,
-				05AA2BC42B6834440001D502 /* HTTPRequest.swift */,
-				05AA2BC62B68362E0001D502 /* ExchangeRateCalculatorViewModel.swift */,
-				05AA2BC82B6836BF0001D502 /* Currency.swift */,
-				05AA2BCA2B683B960001D502 /* ExchangeRate.swift */,
-				05AA2BCC2B6865040001D502 /* ExchangeRateService.swift */,
-				05AA2BCE2B686EF90001D502 /* ExchangeRateInfo.swift */,
-				05AA2BD52B68709F0001D502 /* DecodingService.swift */,
-				05AA2BE32B6879BD0001D502 /* RecipientCountrySelectionViewModel.swift */,
+				05AA2BEB2B687D9C0001D502 /* Sources */,
+				05AA2BE82B687D030001D502 /* Resources */,
 			);
 			path = WirebarleyAssignment;
 			sourceTree = "<group>";
@@ -172,6 +155,103 @@
 				05AA2BD32B686F510001D502 /* NetworkError.swift */,
 			);
 			path = Error;
+			sourceTree = "<group>";
+		};
+		05AA2BE82B687D030001D502 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				05AA2BEA2B687D810001D502 /* Application */,
+				05AA2BE92B687D270001D502 /* Configuration */,
+				05AA2B542B64210C0001D502 /* Assets.xcassets */,
+				05AA2B562B64210C0001D502 /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		05AA2BE92B687D270001D502 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				05AA2B592B64210C0001D502 /* Info.plist */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		05AA2BEA2B687D810001D502 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				05AA2B4B2B64210B0001D502 /* AppDelegate.swift */,
+				05AA2B4D2B64210B0001D502 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		05AA2BEB2B687D9C0001D502 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				05AA2BEC2B687DA90001D502 /* Models */,
+				05AA2BED2B687DBA0001D502 /* Feature */,
+				05AA2BF12B687E090001D502 /* Networking */,
+				05AA2BF02B687DFC0001D502 /* Delegates */,
+				05AA2BD02B686F0C0001D502 /* Error */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		05AA2BEC2B687DA90001D502 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				05AA2BC82B6836BF0001D502 /* Currency.swift */,
+				05AA2BCA2B683B960001D502 /* ExchangeRate.swift */,
+				05AA2BCE2B686EF90001D502 /* ExchangeRateInfo.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		05AA2BED2B687DBA0001D502 /* Feature */ = {
+			isa = PBXGroup;
+			children = (
+				05AA2BEE2B687DD10001D502 /* ExchangeRateCalculator */,
+				05AA2BEF2B687DE60001D502 /* RecipientCountrySelection */,
+			);
+			path = Feature;
+			sourceTree = "<group>";
+		};
+		05AA2BEE2B687DD10001D502 /* ExchangeRateCalculator */ = {
+			isa = PBXGroup;
+			children = (
+				05AA2B4F2B64210B0001D502 /* ExchangeRateCalculatorViewController.swift */,
+				05AA2BC62B68362E0001D502 /* ExchangeRateCalculatorViewModel.swift */,
+			);
+			path = ExchangeRateCalculator;
+			sourceTree = "<group>";
+		};
+		05AA2BEF2B687DE60001D502 /* RecipientCountrySelection */ = {
+			isa = PBXGroup;
+			children = (
+				05AA2BE32B6879BD0001D502 /* RecipientCountrySelectionViewModel.swift */,
+				05AA2BB92B6810980001D502 /* RecipientCountrySelectionViewController.swift */,
+			);
+			path = RecipientCountrySelection;
+			sourceTree = "<group>";
+		};
+		05AA2BF02B687DFC0001D502 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				05AA2BBB2B681D3A0001D502 /* SendDataDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		05AA2BF12B687E090001D502 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				05AA2BC02B682AA40001D502 /* HTTPRequestBuilder.swift */,
+				05AA2BC42B6834440001D502 /* HTTPRequest.swift */,
+				05AA2BC22B682C310001D502 /* CurrencylayerURLRequestBuilder.swift */,
+				05AA2BCC2B6865040001D502 /* ExchangeRateService.swift */,
+				05AA2BD52B68709F0001D502 /* DecodingService.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -495,7 +575,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = WirebarleyAssignment/Info.plist;
+				INFOPLIST_FILE = WirebarleyAssignment/Resources/Configuration/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -522,7 +602,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = WirebarleyAssignment/Info.plist;
+				INFOPLIST_FILE = WirebarleyAssignment/Resources/Configuration/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
