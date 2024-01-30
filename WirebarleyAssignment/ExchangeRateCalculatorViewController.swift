@@ -307,6 +307,12 @@ class ExchangeRateCalculatorViewController: UIViewController, UISheetPresentatio
         textFieldDidChangeSelection(remittanceAmountTextField)
     }
     
+    private func presentAlert(message: String) {
+        let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        present(alert, animated: true)
+    }
+    
     // MARK: -
     // MARK: Action Method
     @objc private func openSelectionView() {
@@ -336,6 +342,19 @@ extension ExchangeRateCalculatorViewController: SendDataDelegate {
 // MARK: TextFieldDelegate Extension
 extension ExchangeRateCalculatorViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
+        if textField.text?.isEmpty == true {
+            return
+        }
+        
+        guard let amountText = textField.text,
+              let amount = Double(amountText),
+                amount >= 0.0, amount <= 10000.0,
+              amountText.isEmpty || !amountText.isEmpty else {
+            presentAlert(message: "송금액이 바르지 않습니다")
+            textField.text = "0.0"
+            return
+        }
+
         viewModel.convertToForeignAmount(money: textField.text ?? "") { [weak self] result in
             switch result {
             case .success(let amount):
