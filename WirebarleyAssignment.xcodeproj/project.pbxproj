@@ -12,7 +12,6 @@
 		05AA2B502B64210B0001D502 /* ExchangeRateCalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05AA2B4F2B64210B0001D502 /* ExchangeRateCalculatorViewController.swift */; };
 		05AA2B552B64210C0001D502 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 05AA2B542B64210C0001D502 /* Assets.xcassets */; };
 		05AA2B582B64210C0001D502 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05AA2B562B64210C0001D502 /* LaunchScreen.storyboard */; };
-		05AA2B632B64210C0001D502 /* WirebarleyAssignmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05AA2B622B64210C0001D502 /* WirebarleyAssignmentTests.swift */; };
 		05AA2B6D2B64210C0001D502 /* WirebarleyAssignmentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05AA2B6C2B64210C0001D502 /* WirebarleyAssignmentUITests.swift */; };
 		05AA2B6F2B64210C0001D502 /* WirebarleyAssignmentUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05AA2B6E2B64210C0001D502 /* WirebarleyAssignmentUITestsLaunchTests.swift */; };
 		05AA2BBA2B6810980001D502 /* RecipientCountrySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05AA2BB92B6810980001D502 /* RecipientCountrySelectionViewController.swift */; };
@@ -28,6 +27,7 @@
 		05AA2BD42B686F510001D502 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05AA2BD32B686F510001D502 /* NetworkError.swift */; };
 		05AA2BD62B68709F0001D502 /* DecodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05AA2BD52B68709F0001D502 /* DecodingService.swift */; };
 		05AA2BE42B6879BD0001D502 /* RecipientCountrySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05AA2BE32B6879BD0001D502 /* RecipientCountrySelectionViewModel.swift */; };
+		05AA2BF32B6883360001D502 /* ExchangeRateCalculatorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05AA2BF22B6883360001D502 /* ExchangeRateCalculatorViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +56,6 @@
 		05AA2B572B64210C0001D502 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		05AA2B592B64210C0001D502 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		05AA2B5E2B64210C0001D502 /* WirebarleyAssignmentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WirebarleyAssignmentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		05AA2B622B64210C0001D502 /* WirebarleyAssignmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WirebarleyAssignmentTests.swift; sourceTree = "<group>"; };
 		05AA2B682B64210C0001D502 /* WirebarleyAssignmentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WirebarleyAssignmentUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		05AA2B6C2B64210C0001D502 /* WirebarleyAssignmentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WirebarleyAssignmentUITests.swift; sourceTree = "<group>"; };
 		05AA2B6E2B64210C0001D502 /* WirebarleyAssignmentUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WirebarleyAssignmentUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -73,6 +72,7 @@
 		05AA2BD32B686F510001D502 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		05AA2BD52B68709F0001D502 /* DecodingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingService.swift; sourceTree = "<group>"; };
 		05AA2BE32B6879BD0001D502 /* RecipientCountrySelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipientCountrySelectionViewModel.swift; sourceTree = "<group>"; };
+		05AA2BF22B6883360001D502 /* ExchangeRateCalculatorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateCalculatorViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +132,7 @@
 		05AA2B612B64210C0001D502 /* WirebarleyAssignmentTests */ = {
 			isa = PBXGroup;
 			children = (
-				05AA2B622B64210C0001D502 /* WirebarleyAssignmentTests.swift */,
+				05AA2BF22B6883360001D502 /* ExchangeRateCalculatorViewModelTests.swift */,
 			);
 			path = WirebarleyAssignmentTests;
 			sourceTree = "<group>";
@@ -404,7 +404,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05AA2B632B64210C0001D502 /* WirebarleyAssignmentTests.swift in Sources */,
+				05AA2BF32B6883360001D502 /* ExchangeRateCalculatorViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
