@@ -28,6 +28,7 @@
 		05AA2BD22B686F2B0001D502 /* ConversionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05AA2BD12B686F2B0001D502 /* ConversionError.swift */; };
 		05AA2BD42B686F510001D502 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05AA2BD32B686F510001D502 /* NetworkError.swift */; };
 		05AA2BD62B68709F0001D502 /* DecodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05AA2BD52B68709F0001D502 /* DecodingService.swift */; };
+		05AA2BE42B6879BD0001D502 /* RecipientCountrySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05AA2BE32B6879BD0001D502 /* RecipientCountrySelectionViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		05AA2BD12B686F2B0001D502 /* ConversionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionError.swift; sourceTree = "<group>"; };
 		05AA2BD32B686F510001D502 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		05AA2BD52B68709F0001D502 /* DecodingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingService.swift; sourceTree = "<group>"; };
+		05AA2BE32B6879BD0001D502 /* RecipientCountrySelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipientCountrySelectionViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +143,7 @@
 				05AA2BCC2B6865040001D502 /* ExchangeRateService.swift */,
 				05AA2BCE2B686EF90001D502 /* ExchangeRateInfo.swift */,
 				05AA2BD52B68709F0001D502 /* DecodingService.swift */,
+				05AA2BE32B6879BD0001D502 /* RecipientCountrySelectionViewModel.swift */,
 			);
 			path = WirebarleyAssignment;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				05AA2BD42B686F510001D502 /* NetworkError.swift in Sources */,
 				05AA2BC92B6836BF0001D502 /* Currency.swift in Sources */,
 				05AA2BC52B6834440001D502 /* HTTPRequest.swift in Sources */,
+				05AA2BE42B6879BD0001D502 /* RecipientCountrySelectionViewModel.swift in Sources */,
 				05AA2BC12B682AA40001D502 /* HTTPRequestBuilder.swift in Sources */,
 				05AA2BCB2B683B960001D502 /* ExchangeRate.swift in Sources */,
 				05AA2BD62B68709F0001D502 /* DecodingService.swift in Sources */,

@@ -9,9 +9,7 @@ import UIKit
 
 class RecipientCountrySelectionViewController: UIViewController {
     weak var delegate: SendDataDelegate?
-
-    private let pickerData: [String] = ["한국(KRW)", "일본(JPY)", "필리핀(PHP)"]
-    private lazy var selectedCountry: String = pickerData[0]
+    private let viewModel:RecipientCountrySelectionViewModel = RecipientCountrySelectionViewModel()
     
     // MARK: UI 요소 정의
     private let pickerView: UIPickerView = {
@@ -41,7 +39,7 @@ class RecipientCountrySelectionViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        delegate?.sendData(selectedCountry)
+        delegate?.sendData(viewModel.getSelectedCountry())
     }
     
     // MARK: -
@@ -84,16 +82,16 @@ extension RecipientCountrySelectionViewController: UIPickerViewDelegate, UIPicke
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerData.count
+        return viewModel.getPickerDate().count
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedCountry = pickerData[row]
+        viewModel.setSelectedCountry(by: row)
     }
 
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         let label = UILabel()
-        label.text = "\(pickerData[row])"
+        label.text = "\(viewModel.getPickerDate()[row])"
         label.textAlignment = .center
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         return label
